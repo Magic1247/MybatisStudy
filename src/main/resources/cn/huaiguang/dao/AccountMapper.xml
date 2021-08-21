@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.huaiguang.dao.AccountMapper">
+    <!-- 设定返回map，type属性为pojo类-->
+    <resultMap id="accountUserMap" type="cn.huaiguang.domain.AccountUser">
+        <id property="id" column="id"></id>
+        <result property="uid" column="uid"></result>
+        <result property="money" column="money"></result>
+        <association property="user" column="uid" javaType="cn.huaiguang.domain.User">
+            <result property="username" column="username"></result>
+            <result property="sex" column="sex"></result>
+    </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="accountUserMap">
+        select a.*,b.username,b.sex from account as a,user as b where b.id = a.uid;
+    </select>
+
+</mapper>

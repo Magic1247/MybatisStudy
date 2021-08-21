@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- Mybatis主配置文件-->
+<configuration>
+    <typeAliases>
+        <!-- 指定domain包路径，指定后等效于给接口取别名，可直接配置类型且无需区分大小写-->
+        <package name="cn.huaiguang.domain"/>
+    </typeAliases>
+    <!--配置环境-->
+    <environments default="mysql">
+        <!--配置mysql环境 -->
+        <environment id="mysql">
+            <!--配置事务类型 -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- 配置连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://121.4.104.195:3306/mybatisStudy?useUnicode=true&amp;characterEncoding=utf8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="Yasugongshang1"/>
+            </dataSource>
+
+        </environment>
+    </environments>
+    <!-- 指定映射配置的文件，映射配置文件指每个dao独立的配置文件-->
+    <mappers>
+<!--        <mapper resource="cn/huaiguang/dao/UserMapper.xml"></mapper>-->
+
+        <!-- 指定dao接口所在的包路径后无需配置resource可通过包中对应的类型对应mapperXML -->
+        <package name="cn.huaiguang.dao"/>
+    </mappers>
+</configuration>

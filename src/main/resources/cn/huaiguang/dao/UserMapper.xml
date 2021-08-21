@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace取值必须是dao接口的全类名-->
+<mapper namespace="cn.huaiguang.dao.UserMapper">
+    <!-- 配置查询所有-->
+    <!--id为Mapper接口方法名，需要指定封装类型-->
+    <!-- 查询所有-->
+    <select id="findAll" resultType="cn.huaiguang.domain.User">
+        select * from user;
+    </select>
+
+    <!-- 新增用户-->
+    <insert id="add" parameterType="cn.huaiguang.domain.User">
+    <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="int">
+        select LAST_INSERT_ID();
+    </selectKey>
+        insert into user(username,birthday,sex,address) values (#{username},#{birthday},#{sex},#{address});
+    </insert>
+
+    <!-- 更新用户-->
+    <update id="updateUser" parameterType="cn.huaiguang.domain.User">
+        update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} where id = #{id};
+    </update>
+
+    <!-- 根据id删除用户-->
+    <delete id="deleteUserById" parameterType="Integer">
+        delete from user where id = #{id};
+    </delete>
+
+    <!-- 删除用户-->
+    <delete id="deleteUser" parameterType="cn.huaiguang.domain.User">
+        delete from user where id = #{id};
+    </delete>
+
+    <!-- 根据id查询用户-->
+    <select id="findByid" parameterType="int" resultType="cn.huaiguang.domain.User">
+        select * from user where id = #{id};
+    </select>
+
+    <!-- 根据Name模糊查询-->
+    <select id="findByName" parameterType="String" resultType="cn.huaiguang.domain.User">
+        select * from user where username like #{username};
+    </select>
+
+    <!-- 查询用户总数-->
+    <select id="findUserTotle" resultType="int">
+        select count(id) from user;
+    </select>
+
+    <!-- 使用queryVo查询用户-->
+    <select id="findByQueryVo" resultType="cn.huaiguang.domain.User" parameterType="cn.huaiguang.domain.QueryVo">
+        select * from user where username like #{user.username};
+    </select>
+
+    <!-- 根据条件动态查询-->
+    <select id="findByCondition" resultType="user" parameterType="user">
+        select * from user
+        <where>
+            <if test="id!=null">
+                and id = #{id}
+            </if>
+            <if test="username!=null">
+                and username like #{username}
+            </if>
+            <if test="birthday!=null">
+                and birthday = #{birthday}
+            </if>
+            <if test="sex!=null">
+                and sex = #{sex}
+            </if>
+            <if test="address!=null">
+                and address = #{address}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据id集合查询-->
+    <select id="findByIdList" parameterType="list" resultType="user">
+        select * from user where id in 
+        <foreach collection="list" open="(" close=")" separator="," item="ids">
+            #{ids}
+        </foreach>
+    </select>
+
+    <!-- 查询所有用户的账户信息 一对多演示-->
+
+    <resultMap id="userAccount" type="cn.huaiguang.domain.User">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="sex" property="sex"></result>
+        <result column="address" property="address"></result>
+
+        <!-- property中填写从表对象属性名 ofType中填写从表对象pojo全类型-->
+        <collection property="accounts" ofType="cn.huaiguang.domain.AccountUser">
+            <id column="bid" property="id"></id>
+            <result column="uid" property="uid"></result>
+            <result column="money" property="money"></result>
+        </collection>
+
+    </resultMap>
+    <select id="findAllUserAccount" resultMap="userAccount" >
+        select a.*,b.id as bid, b.uid, b.money from user as a left join account as b on a.id = b.uid;
+    </select>
+
+    <!-- 根据id查询用户绑定的所有角色-->
+    <resultMap id="RoleOfUser" type="cn.huaiguang.domain.User">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="sex" column="sex"></result>
+        <result property="birthday" column="birthday"></result>
+        <result property="address" column="address"></result>
+        <collection property="roles" ofType="cn.huaiguang.domain.Role">
+            <id property="id" column="rid"></id>
+            <result property="roleName" column="role_name"></result>
+            <result property="roleDesc" column="role_desc"></result>
+        </collection>
+    </resultMap>
+    <select id="findAllRoleOfUser" resultMap="RoleOfUser" parameterType="int">
+        select u.*,
+        r.id as rid,
+        r.role_name as role_name ,
+        r.role_desc as role_desc
+        from user as u
+        left join user_role as ur on u.id = ur.uid
+        LEFT JOIN role as r on ur.rid = r.id where u.id = #{id}
+    </select>
+</mapper>
