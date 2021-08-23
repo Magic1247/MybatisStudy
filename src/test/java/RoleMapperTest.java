@@ -1,4 +1,3 @@
-import cn.huaiguang.dao.AccountMapper;
 import cn.huaiguang.dao.RoleMapper;
 import cn.huaiguang.domain.Role;
 import org.apache.ibatis.io.Resources;
@@ -40,7 +39,7 @@ public class RoleMapperTest {
     }
 
     @Test
-    public void testfindAllUserOfRole(){
+    public void testfindAllUserOfRole() {
         List<Role> allUserOfRole = roleMapper.findAllUserOfRole();
         for (Role role : allUserOfRole) {
             System.out.println(role);

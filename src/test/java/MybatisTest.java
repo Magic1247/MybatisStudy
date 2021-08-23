@@ -191,21 +191,23 @@ public class MybatisTest {
             System.out.println(user);
         }
     }
+
     /**
      * 一对多演示
      */
     @Test
-    public void testfindAllUserAccount(){
+    public void testfindAllUserAccount() {
         List<User> userAccount = userMapper.findAllUserAccount();
         for (User user : userAccount) {
             System.out.println(user);
         }
     }
+
     /**
      * 多对多演示
      */
     @Test
-    public void testfinadAllUserRole(){
+    public void testfinadAllUserRole() {
         List<User> users = userMapper.findAllRoleOfUser(50);
         for (User user : users) {
             System.out.println(user);
