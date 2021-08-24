@@ -42,7 +42,7 @@ public class RoleMapperTest {
     public void testfindAllUserOfRole() {
         List<Role> allUserOfRole = roleMapper.findAllUserOfRole();
         for (Role role : allUserOfRole) {
-            System.out.println(role);
+//            System.out.println(role);
         }
     }
 }
