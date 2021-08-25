@@ -12,7 +12,7 @@
         <association property="user" column="uid" javaType="cn.huaiguang.domain.User">
             <result property="username" column="username"></result>
             <result property="sex" column="sex"></result>
-    </association>
+        </association>
     </resultMap>
 
     <select id="findAll" resultMap="accountUserMap">

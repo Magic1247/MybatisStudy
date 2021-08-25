@@ -13,9 +13,9 @@
 
     <!-- 新增用户-->
     <insert id="add" parameterType="cn.huaiguang.domain.User">
-    <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="int">
-        select LAST_INSERT_ID();
-    </selectKey>
+        <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="int">
+            select LAST_INSERT_ID();
+        </selectKey>
         insert into user(username,birthday,sex,address) values (#{username},#{birthday},#{sex},#{address});
     </insert>
 
@@ -78,7 +78,7 @@
 
     <!-- 根据id集合查询-->
     <select id="findByIdList" parameterType="list" resultType="user">
-        select * from user where id in 
+        select * from user where id in
         <foreach collection="list" open="(" close=")" separator="," item="ids">
             #{ids}
         </foreach>
@@ -101,7 +101,7 @@
         </collection>
 
     </resultMap>
-    <select id="findAllUserAccount" resultMap="userAccount" >
+    <select id="findAllUserAccount" resultMap="userAccount">
         select a.*,b.id as bid, b.uid, b.money from user as a left join account as b on a.id = b.uid;
     </select>
 

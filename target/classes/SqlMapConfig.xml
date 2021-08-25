@@ -27,7 +27,7 @@
     </environments>
     <!-- 指定映射配置的文件，映射配置文件指每个dao独立的配置文件-->
     <mappers>
-<!--        <mapper resource="cn/huaiguang/dao/UserMapper.xml"></mapper>-->
+        <!--        <mapper resource="cn/huaiguang/dao/UserMapper.xml"></mapper>-->
 
         <!-- 指定dao接口所在的包路径后无需配置resource可通过包中对应的类型对应mapperXML -->
         <package name="cn.huaiguang.dao"/>
